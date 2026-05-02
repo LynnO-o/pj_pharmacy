@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node node_modules/vite/bin/vite.js build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
-    "sass": "1.71.1",
+    "sass": "^1.99.0",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-element-plus": "^0.8.0",
     "unplugin-vue-components": "^0.27.2",
