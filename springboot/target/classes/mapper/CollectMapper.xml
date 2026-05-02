@@ -1,0 +1,52 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CollectMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Collect">
+        select collect.*, drug.name as drugName, drug.price as drugPrice, drug.img as drugImg, user.name as userName from `collect`
+        left join drug on collect.fid = drug.id
+        left join user on collect.user_id = user.id
+        <where>
+            <if test="userId != null">collect.user_id = #{userId}</if>
+        </where>
+        order by collect.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `collect`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Collect" useGeneratedKeys="true">
+        insert into `collect`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="fid != null">fid,</if>
+            <if test="userId != null">user_id,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="fid != null">#{fid},</if>
+            <if test="userId != null">#{userId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Collect">
+        update `collect`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="fid != null">
+                fid = #{fid},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

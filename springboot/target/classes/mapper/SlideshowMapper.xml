@@ -1,0 +1,51 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SlideshowMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Slideshow">
+        select slideshow.*,drug.name as drugName from `slideshow`
+        left join drug on slideshow.drug_id = drug.id
+        <where>
+            <if test="drugName != null"> and drug.name like concat('%', #{drugName}, '%')</if>
+        </where>
+        order by slideshow.id asc
+    </select>
+
+    <delete id="deleteById">
+        delete from `slideshow`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Slideshow" useGeneratedKeys="true">
+        insert into `slideshow`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="drugId != null">drug_id,</if>
+            <if test="img != null">img,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="drugId != null">#{drugId},</if>
+            <if test="img != null">#{img},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Slideshow">
+        update `slideshow`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="drugId != null">
+                drug_id = #{drugId},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

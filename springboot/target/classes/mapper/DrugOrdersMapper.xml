@@ -1,0 +1,106 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DrugOrdersMapper">
+
+    <select id="selectAll" resultType="com.example.entity.DrugOrders">
+        select drug_orders.*, user.name as userName, drug_shop.name as shopName from `drug_orders`
+        left join user on drug_orders.user_id = user.id
+        left join drug_shop on drug_orders.shop_id = drug_shop.id
+        <where>
+            <if test="orderNo != null"> and drug_orders.order_no like concat('%', #{orderNo}, '%')</if>
+            <if test="drugName != null"> and drug_orders.drug_name like concat('%', #{drugName}, '%')</if>
+            <if test="userId != null"> and drug_orders.user_id = #{userId}</if>
+            <if test="shopId != null"> and drug_orders.shop_id = #{shopId}</if>
+            <if test="status != null"> and drug_orders.status = #{status}</if>
+        </where>
+        order by drug_orders.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `drug_orders`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.DrugOrders" useGeneratedKeys="true">
+        insert into `drug_orders`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="drugId != null">drug_id,</if>
+            <if test="drugName != null">drug_name,</if>
+            <if test="drugImg != null">drug_img,</if>
+            <if test="price != null">price,</if>
+            <if test="pickupUser != null">pickup_user,</if>
+            <if test="pickupAddress != null">pickup_address,</if>
+            <if test="pickupPhone != null">pickup_phone,</if>
+            <if test="status != null">status,</if>
+            <if test="time != null">time,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="drugId != null">#{drugId},</if>
+            <if test="drugName != null">#{drugName},</if>
+            <if test="drugImg != null">#{drugImg},</if>
+            <if test="price != null">#{price},</if>
+            <if test="pickupUser != null">#{pickupUser},</if>
+            <if test="pickupAddress != null">#{pickupAddress},</if>
+            <if test="pickupPhone != null">#{pickupPhone},</if>
+            <if test="status != null">#{status},</if>
+            <if test="time != null">#{time},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.DrugOrders">
+        update `drug_orders`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId},
+            </if>
+            <if test="drugId != null">
+                drug_id = #{drugId},
+            </if>
+            <if test="drugName != null">
+                drug_name = #{drugName},
+            </if>
+            <if test="drugImg != null">
+                drug_img = #{drugImg},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="pickupUser != null">
+                pickup_user = #{pickupUser},
+            </if>
+            <if test="pickupAddress != null">
+                pickup_address = #{pickupAddress},
+            </if>
+            <if test="pickupPhone != null">
+                pickup_phone = #{pickupPhone},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

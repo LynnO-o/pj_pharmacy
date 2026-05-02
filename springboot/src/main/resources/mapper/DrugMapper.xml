@@ -1,0 +1,122 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DrugMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Drug">
+        select drug.*, drug_shop.name as shopName, drug_type.name as typeName from `drug`
+        left join drug_shop on drug.shop_id = drug_shop.id
+        left join drug_type on drug.type_id = drug_type.id
+        <where>
+            <if test="name != null"> and drug.name like concat('%', #{name}, '%')</if>
+            <if test="shopId != null"> and drug.shop_id = #{shopId}</if>
+            <if test="recommend != null"> and drug.recommend = #{recommend}</if>
+            <if test="status != null"> and drug.status=#{status}</if>
+            <if test="typeId != null"> and drug.type_id=#{typeId}</if>
+        </where>
+        order by drug.id desc
+    </select>
+    <select id="selectById" resultType="com.example.entity.Drug">
+        select drug.*, drug_shop.name as shopName, drug_shop.avatar as shopAvatar, drug_type.name as typeName from `drug`
+        left join drug_shop on drug.shop_id = drug_shop.id
+        left join drug_type on drug.type_id = drug_type.id
+        where drug.id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from `drug`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Drug" useGeneratedKeys="true">
+        insert into `drug`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="name != null">name,</if>
+            <if test="img != null">img,</if>
+            <if test="price != null">price,</if>
+            <if test="spec != null">spec,</if>
+<!--            <if test="expiredate != null">expiredate,</if>-->
+            <if test="drugfunction != null">drugfunction,</if>
+            <if test="drugusage != null">drugusage,</if>
+            <if test="taboo != null">taboo,</if>
+            <if test="content != null">content,</if>
+            <if test="status != null">status,</if>
+            <if test="recommend != null">recommend,</if>
+            <if test="store != null">store,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="img != null">#{img},</if>
+            <if test="price != null">#{price},</if>
+            <if test="spec != null">#{spec},</if>
+<!--            <if test="expiredate != null">#{expiredate},</if>-->
+            <if test="drugfunction != null">#{drugfunction},</if>
+            <if test="drugusage != null">#{drugusage},</if>
+            <if test="taboo != null">#{taboo},</if>
+            <if test="content != null">#{content},</if>
+            <if test="status != null">#{status},</if>
+            <if test="recommend != null">#{recommend},</if>
+            <if test="store != null">#{store},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Drug">
+        update `drug`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="spec != null">
+                spec = #{spec},
+            </if>
+<!--            <if test="expiredate != null">-->
+<!--                expiredate = #{expiredate},-->
+<!--            </if>-->
+            <if test="drugfunction != null">
+                drugfunction = #{drugfunction},
+            </if>
+            <if test="drugusage != null">
+                drugusage = #{drugusage},
+            </if>
+            <if test="taboo != null">
+                taboo = #{taboo},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="recommend != null">
+                recommend = #{recommend},
+            </if>
+            <if test="store != null">
+                store = #{store},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

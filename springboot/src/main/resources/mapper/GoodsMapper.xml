@@ -1,0 +1,91 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.GoodsMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Goods">
+        select goods.*, drug_shop.name as shopName ,goods_type.name as typeName from `goods`
+        left join drug_shop on goods.shop_id = drug_shop.id
+        left join goods_type on goods.type_id = goods_type.id
+        <where>
+            <if test="name != null"> and goods.name like concat('%', #{name}, '%')</if>
+            <if test="shopId != null"> and goods.shop_id = #{shopId}</if>
+            <if test="status != null"> and goods.status=#{status}</if>
+            <if test="typeId != null"> and goods.type_id = #{typeId}</if>
+        </where>
+        <if test="orderBy == 'sale'">order by goods.sale</if>
+        <if test="orderBy == null">order by goods.id desc</if>
+    </select>
+
+    <delete id="deleteById">
+        delete from `goods`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Goods" useGeneratedKeys="true">
+        insert into `goods`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="name != null">name,</if>
+            <if test="descr != null">descr,</if>
+            <if test="img != null">img,</if>
+            <if test="price != null">price,</if>
+            <if test="sale != null">sale,</if>
+            <if test="status != null">status,</if>
+            <if test="store != null">store,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="descr != null">#{descr},</if>
+            <if test="img != null">#{img},</if>
+            <if test="price != null">#{price},</if>
+            <if test="sale != null">#{sale},</if>
+            <if test="status != null">#{status},</if>
+            <if test="store != null">#{store},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Goods">
+        update `goods`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="descr != null">
+                descr = #{descr},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="sale != null">
+                sale = #{sale},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="store != null">
+                store = #{store},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
